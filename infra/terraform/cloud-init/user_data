@@ -1,0 +1,13 @@
+#cloud-config
+hostname: ${hostname}
+local-hostname: ${hostname}
+fqdn: ${hostname}.${domain}
+manage_etc_hosts: true
+package_upgrade: true
+users:
+  - default
+  - name: ubuntu
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBOhE35Y3IcTJZLBqvevunWaRgmp4IEFYfz78EG0yKB2 kassa8b2@gmail.com
+ssh_pwauth: True ## This line enables ssh password authentication
