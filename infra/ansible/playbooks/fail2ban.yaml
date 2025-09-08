@@ -1,0 +1,20 @@
+---
+- name: Install Fail2Ban
+  hosts: env_lab
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Ensure base packages
+      ansible.builtin.apt:
+        name:
+          - fail2ban
+          - curl
+        state: present
+        update_cache: true
+
+    - name: Enable and start Fail2Ban
+      ansible.builtin.service:
+        name: fail2ban
+        state: started
+        enabled: true
