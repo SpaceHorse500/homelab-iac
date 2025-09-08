@@ -46,10 +46,16 @@ variable "domain" {
   default     = "space.local"
 }
 
-variable "ssh_public_key" {
+variable "ssh_hypervisor_public_key" {
   description = "SSH public key for cloud-init"
   type        = string
-  default     = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBOhE35Y3IcTJZLBqvevunWaRgmp4IEFYfz78EG0yKB2 kassa8b2@gmail.com"
+  default     = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHOjxA+NHtSCKoM7hVUMTCa8cDWWxcYYuDQqNUEHvLy0"
+}
+
+variable "ssh_laptop_public_key" {
+  description = "SSH public key for cloud-init"
+  type        = string
+  default     = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILuS05kSIc1TSwmRyvX3g5KlvY/bY2whGlDGyj9iwrfd"
 }
 
 variable "onboot" {

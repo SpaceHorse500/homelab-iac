@@ -1,0 +1,28 @@
+---
+- name: Install Fail2Ban + Pi-hole
+  hosts: env_lab
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Ensure base packages
+      ansible.builtin.apt:
+        name:
+          - fail2ban
+          - curl
+        state: present
+        update_cache: true
+
+    - name: Enable and start Fail2Ban
+      ansible.builtin.service:
+        name: fail2ban
+        state: started
+        enabled: true
+
+    - name: Install Pi-hole unattended
+      ansible.builtin.shell: |
+        curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended
+      args:
+        executable: /bin/bash
+      register: pihole_install
+      changed_when: "'Pi-hole blocking is enabled' in pihole_install.stdout"

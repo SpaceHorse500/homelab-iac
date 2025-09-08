@@ -16,10 +16,11 @@ locals {
     package_upgrade: true
     users:
       - default
-      - name: ubuntu
+      - name: user
         sudo: ALL=(ALL) NOPASSWD:ALL
         ssh_authorized_keys:
-          - ${var.ssh_public_key}
+          - ${var.ssh_hypervisor_public_key}
+          - ${var.ssh_laptop_public_key}
     ssh_pwauth: true
   EOT
 
