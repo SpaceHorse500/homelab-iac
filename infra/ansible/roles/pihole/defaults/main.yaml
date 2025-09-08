@@ -1,0 +1,8 @@
+# roles/pihole/defaults/main.yml
+pihole_install_web: true
+pihole_skip_os_check: true
+
+# DNS defaults (Quad9)
+pihole_dns_1: "9.9.9.9"
+pihole_dns_2: "149.112.112.112"
+pihole_dns_listening: "single"
