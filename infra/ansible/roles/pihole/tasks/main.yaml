@@ -1,0 +1,32 @@
+- name: Ensure Pi-hole dirs exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - /etc/pihole
+    - /etc/dnsmasq.d
+
+- name: Compute IPv4/CIDR and interface
+  set_fact:
+    pihole_ipv4_cidr: "{{ ansible_default_ipv4.address }}/{{ ansible_default_ipv4.netmask | ipaddr('prefix') }}"
+    pihole_iface: "{{ ansible_default_ipv4.interface }}"
+
+- name: Render setupVars.conf
+  template:
+    src: setupVars.conf.j2
+    dest: /etc/pihole/setupVars.conf
+    mode: "0644"
+
+- name: Ensure Pi-hole installed (unattended)
+  shell: >
+    {{ 'PIHOLE_SKIP_OS_CHECK=true ' if (pihole_skip_os_check | default(true)) else '' }}
+    curl -L https://install.pi-hole.net | bash /dev/stdin --unattended
+    {{ '--disable-install-webserver' if not (pihole_install_web | default(true)) else '' }}
+  args: { executable: /bin/bash }
+  when: not (pihole_installed.stat.exists | default(false))
+
+- name: Check binary
+  stat:
+    path: /usr/local/bin/pihole
+  register: pihole_installed

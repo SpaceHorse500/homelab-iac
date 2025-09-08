@@ -1,0 +1,7 @@
+- name: Configure lab hosts
+  hosts: env_lab
+  become: true
+  gather_facts: true
+
+  roles:
+    - pihole
