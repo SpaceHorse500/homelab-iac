@@ -37,7 +37,13 @@ variable "template_tag" {
 variable "vm_hostname" {
   description = "Short hostname (no domain)"
   type        = string
-  default     = "test"
+  default     = "machine"
+}
+
+variable "vm_gw_hostname" {
+  description = "Short hostname (no domain)"
+  type        = string
+  default     = "u-gateway"
 }
 
 variable "domain" {
@@ -69,6 +75,13 @@ variable "vm_tags" {
   type        = list(string)
   default     = ["managed-by-tf", "env-lab"]
 }
+
+variable "vm_gw_tags" {
+  description = "Tags to set on created VM"
+  type        = list(string)
+  default     = ["managed-by-tf", "gateway","elk-stack"]
+}
+
 
 variable "cores" {
   type    = number
