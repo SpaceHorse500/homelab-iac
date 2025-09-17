@@ -84,10 +84,5 @@ This applies roles for services, packages, and configuration.
 
 ---
 
-## License
-This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
-
----
-
 ## Author
 Developed and maintained by **SpaceHorse500**  
