@@ -119,3 +119,9 @@ variable "additionnal_disks" {
   }))
   default = {}
 }
+
+variable "network_bridges" {
+  description = "A list of network bridges to attach to the VM."
+  type        = list(string)
+  default     = ["vmbr0", "vmbr1"]
+}

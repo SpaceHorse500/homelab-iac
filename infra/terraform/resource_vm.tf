@@ -1,4 +1,4 @@
-resource "proxmox_virtual_environment_vm" "vm" {
+ resource "proxmox_virtual_environment_vm" "vm" {
   name      = "${var.vm_hostname}.${var.domain}"
   node_name = var.target_node
   on_boot   = var.onboot
@@ -21,12 +21,8 @@ resource "proxmox_virtual_environment_vm" "vm" {
   }
 
   network_device {
-    bridge = "vmbr0"
+    bridge = "vmbr1"
     model  = "virtio"
-  }
-
-  lifecycle {
-    ignore_changes = [network_device]
   }
 
   boot_order    = ["scsi0"]
@@ -55,18 +51,24 @@ resource "proxmox_virtual_environment_vm" "vm" {
   clone {
     vm_id        = local.template_vm_id_safe
     full         = true
-    # datastore_id = var.disk.storage   # uncomment to force clone target storage
+    # datastore_id = var.disk.storage 
   }
 
   initialization {
-    datastore_id = var.disk.storage
-    interface    = "ide2"
+    datastore_id      = var.disk.storage
+    interface         = "ide2"
 
     user_data_file_id = proxmox_virtual_environment_file.cloud_user_config.id
     meta_data_file_id = proxmox_virtual_environment_file.cloud_meta_config.id
 
+    # This is the new block for the static IP
     ip_config {
-      ipv4 { address = "dhcp" }
+      ipv4 {
+        # Set a static IP within the vmbr1 range
+        address = "192.168.100.10/24" 
+        # Set the gateway to your u-gateway VM's IP
+        gateway = "192.168.100.1" 
+      }
     }
   }
 }

@@ -20,13 +20,12 @@ resource "proxmox_virtual_environment_vm" "gw_vm" {
     dedicated = var.memory
   }
 
-  network_device {
-    bridge = "vmbr0"
-    model  = "virtio"
-  }
-
-  lifecycle {
-    ignore_changes = [network_device]
+  dynamic "network_device" {
+    for_each = var.network_bridges
+    content {
+      bridge = network_device.value
+      model  = "virtio"
+    }
   }
 
   boot_order    = ["scsi0"]
